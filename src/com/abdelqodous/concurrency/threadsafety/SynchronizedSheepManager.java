@@ -7,8 +7,11 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class SynchronizedSheepManager {
     private int sheepCount = 0;
 
-    private void incrementAndReport(){
-        System.out.println( ++sheepCount +" ");
+//    private void incrementAndReport(){
+    private synchronized void incrementAndReport(){
+//        synchronized (this) {
+            System.out.println( ++sheepCount +" ");
+//        }
     }
 
     public static void main(String[] args) {
@@ -17,9 +20,9 @@ public class SynchronizedSheepManager {
 
         try {
             for (int i = 0; i < 100; i++) {
-                synchronized (manager) {
+//                synchronized (manager) { //synchronized the creation of the threads but not the execution of the threads
                     fixedThreadPool.submit(manager::incrementAndReport);
-                }
+//                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
